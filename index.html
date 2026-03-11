@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Основные стили с учетом темы Telegram */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .user-card {
+            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .action-button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.1s ease;
+        }
+
+        .action-button:active {
+            transform: scale(0.97);
+        }
+
+        #status-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="user-card">
+            <h1>Привет <span id="user-name">карим</span> </h1>
+            <p>Ты чертов гей</p>
+        </div>
+
+        <button class="action-button" id="main-btn">Люблю эльвиру</button>
+        <div id="status-text">Ожидание твоей мамы</div>
+    </div>
+
+    <script>
+        // Инициализация
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Раскрыть на всё окно
+
+        // Установка имени пользователя
+        const nameSpan = document.getElementById('user-name');
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            nameSpan.innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // Настройка главной кнопки внизу (Main Button)
+        tg.MainButton.text = "ЗАКРЫТЬ";
+        tg.MainButton.color = "#31b545"; // Зеленый цвет
+        tg.MainButton.show();
+
+        // Клик по кнопке в центре
+        document.getElementById('main-btn').addEventListener('click', () => {
+            tg.HapticFeedback.impactOccurred('medium'); // Вибрация
+            document.getElementById('status-text').innerText = "Кнопка нажата!";
+            
+            // Отправка данных боту
+            tg.sendData("Клик по центральной кнопке");
+        });
+
+        // Клик по нижней кнопке Telegram
+        tg.onEvent('mainButtonClicked', function() {
+            tg.close();
+        });
+
+        tg.ready();
+    </script>
+</body>
+</html>
