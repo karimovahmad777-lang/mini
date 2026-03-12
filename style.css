@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0a0a0a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 10px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid #00ff00;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #0f0f0f;
+}
+
+.header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #00ff00;
+}
+
+.dev-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #00aa00;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dev-info span {
+    background-color: #1a1a1a;
+    padding: 5px 10px;
+    border: 1px solid #00ff00;
+    border-radius: 3px;
+}
+
+.ascii-art {
+    color: #00ff00;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    border-radius: 3px;
+}
+
+.user-info {
+    color: #00aa00;
+    font-size: 14px;
+    text-align: center;
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    border-radius: 3px;
+}
+
+.menu {
+    margin-bottom: 20px;
+    border: 1px solid #00ff00;
+    padding: 10px;
+    background-color: #0a0a0a;
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.menu-btn {
+    background-color: #1a1a1a;
+    border: 1px solid #00aa00;
+    color: #00ff00;
+    padding: 8px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.menu-btn:hover {
+    background-color: #00aa00;
+    color: #000;
+}
+
+.exit-btn {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.exit-btn:hover {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.output-area {
+    background-color: #050505;
+    border: 1px solid #00ff00;
+    padding: 15px;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.output-area .prompt {
+    color: #00ff00;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1a;
+    border: 1px solid #00ff00;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.input-area .prompt {
+    color: #00ff00;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#userInput {
+    background-color: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    flex: 1;
+    outline: none;
+}
+
+#userInput::placeholder {
+    color: #005500;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #00ff00;
+    color: #00aa00;
+    font-size: 12px;
+}
+
+.result-item {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-left: 2px solid #00ff00;
+}
+
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #00ff00;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.success {
+    color: #00ff00;
+}
+
+.warning {
+    color: #ffff00;
+    border-color: #ffff00;
+}
+
+.exit-message {
+    color: #ff0000;
+    border-color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border-radius: 4px;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .menu-items {
+        grid-template-columns: 1fr;
+    }
+    
+    .dev-info {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+    
+    .ascii-art {
+        font-size: 14px;
+    }
+}
