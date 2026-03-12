@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zoahki Terminal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a1f 0%, #1a0a2a 100%);
+            color: #c77dff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #7b2cbf;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(10, 10, 31, 0.9);
+            box-shadow: 0 0 30px rgba(123, 44, 191, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .ascii {
+            font-size: 12px;
+            color: #9d4edd;
+            white-space: pre;
+            line-height: 1.2;
+            margin: 20px 0;
+            text-shadow: 0 0 5px #7b2cbf;
+        }
+        
+        .user-info {
+            background: #1a1a2e;
+            border: 1px solid #7b2cbf;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .menu-btn {
+            background: #1a1a2e;
+            border: 1px solid #7b2cbf;
+            color: #c77dff;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .menu-btn:hover {
+            background: #7b2cbf;
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 0 15px #7b2cbf;
+        }
+        
+        .output {
+            background: #0f0f1f;
+            border: 2px solid #7b2cbf;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .prompt {
+            color: #9d4edd;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .input-area {
+            display: flex;
+            align-items: center;
+            background: #1a1a2e;
+            border: 2px solid #7b2cbf;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .input-prompt {
+            color: #c77dff;
+            font-size: 18px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        #userInput {
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            flex: 1;
+            outline: none;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #7b2cbf;
+            color: #9d4edd;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #7b2cbf;
+            border-top-color: #c77dff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .menu {
+                grid-template-columns: 1fr;
+            }
+            .ascii {
+                font-size: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="ascii">
+███████╗ ██████╗  █████╗ ██╗  ██╗██╗██╗
+╚══███╔╝██╔═══██╗██╔══██╗██║  ██║██║██║
+  ███╔╝ ██║   ██║███████║███████║██║██║
+ ███╔╝  ██║   ██║██╔══██║██╔══██║██║██║
+███████╗╚██████╔╝██║  ██║██║  ██║██║██║
+╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝
+            </div>
+            <div class="user-info" id="userInfo">
+                Загрузка...
+            </div>
+        </div>
+
+        <div class="output" id="output">
+            <div class="prompt">[#] zoahki Terminal v2.0</div>
+            <div class="prompt">[#] Выберите пункт меню:</div>
+        </div>
+
+        <div class="menu">
+            <button class="menu-btn" onclick="selectMenu(1)">[01] снос через вебсайт</button>
+            <button class="menu-btn" onclick="selectMenu(2)">[02] меню мануалов</button>
+            <button class="menu-btn" onclick="selectMenu(3)">[03] поиск по базе данных</button>
+            <button class="menu-btn" onclick="selectMenu(4)">[04] поиск по номеру</button>
+            <button class="menu-btn" onclick="selectMenu(5)">[05] шифр файлов</button>
+            <button class="menu-btn" onclick="selectMenu(6)">[06] поиск по IP-адресу</button>
+            <button class="menu-btn" onclick="selectMenu(7)">[07] генератор личности</button>
+            <button class="menu-btn" onclick="selectMenu(8)">[08] информация</button>
+            <button class="menu-btn" onclick="selectMenu(9)">[09] разработчик</button>
+            <button class="menu-btn" style="color: #ff6b6b;" onclick="selectMenu(10)">[10] выход</button>
+        </div>
+
+        <div class="input-area" id="inputArea" style="display: none;">
+            <span class="input-prompt">&gt;</span>
+            <input type="text" id="userInput" placeholder="Введите значение..." autocomplete="off">
+        </div>
+
+        <div class="footer">
+            <span>zoahki ● ONLINE</span>
+            <span>v2.0.0</span>
+        </div>
+    </div>
+
+    <script>
+        // Telegram WebApp
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+            tg.setHeaderColor('#0a0a1f');
+            tg.setBackgroundColor('#0a0a1f');
+        }
+
+        // Получаем параметры из URL
+        const params = new URLSearchParams(window.location.search);
+        const userId = params.get('user') || 'unknown';
+        const userName = params.get('name') || 'Пользователь';
+        
+        // Показываем информацию о пользователе
+        document.getElementById('userInfo').innerHTML = `👤 ${userName} (ID: ${userId})`;
+
+        let waitingForInput = false;
+        let inputType = null;
+        const output = document.getElementById('output');
+        const inputArea = document.getElementById('inputArea');
+        const userInput = document.getElementById('userInput');
+
+        function addToOutput(text) {
+            const div = document.createElement('div');
+            div.style.marginBottom = '8px';
+            div.style.paddingLeft = '10px';
+            div.style.borderLeft = '2px solid #7b2cbf';
+            div.innerHTML = text;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function showInput(placeholder, type) {
+            waitingForInput = true;
+            inputType = type;
+            inputArea.style.display = 'flex';
+            userInput.placeholder = placeholder;
+            userInput.focus();
+            
+            if (type === 'ip' || type === 'phone') {
+                userInput.type = 'tel';
+                userInput.inputMode = 'numeric';
+            } else {
+                userInput.type = 'text';
+                userInput.inputMode = 'text';
+            }
+        }
+
+        function hideInput() {
+            waitingForInput = false;
+            inputType = null;
+            inputArea.style.display = 'none';
+            userInput.value = '';
+        }
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && waitingForInput) {
+                const value = userInput.value.trim();
+                if (value) {
+                    handleInput(value);
+                }
+            }
+        });
+
+        function handleInput(value) {
+            addToOutput(`[>] ${value}`);
+            
+            if (inputType === 'ip') {
+                addToOutput(`[+] Информация по IP ${value}:`);
+                addToOutput(`   Город: Paris`);
+                addToOutput(`   Страна: FR`);
+                addToOutput(`   Провайдер: Scaleway`);
+            } else if (inputType === 'phone') {
+                addToOutput(`[+] Информация по номеру ${value}:`);
+                addToOutput(`   Оператор: МТС`);
+                addToOutput(`   Регион: Москва`);
+            } else if (inputType === 'database') {
+                addToOutput(`[+] Поиск "${value}":`);
+                addToOutput(`   Найдено 3 совпадения`);
+            }
+            
+            hideInput();
+        }
+
+        function selectMenu(index) {
+            addToOutput(`\n[#] Вы выбрали пункт ${index}`);
+            
+            switch(index) {
+                case 1:
+                case 2:
+                    addToOutput('[!] Функция в разработке');
+                    break;
+                case 3:
+                    showInput('Введите запрос...', 'database');
+                    break;
+                case 4:
+                    showInput('Введите номер (например: 79031234567)', 'phone');
+                    break;
+                case 5:
+                    addToOutput('[!] Меню шифрования:');
+                    addToOutput('   [01] Зашифровать');
+                    addToOutput('   [02] Расшифровать');
+                    break;
+                case 6:
+                    showInput('Введите IP (например: 8.8.8.8)', 'ip');
+                    break;
+                case 7:
+                    addToOutput('[+] Генерация личности...');
+                    setTimeout(() => {
+                        addToOutput('   ФИО: Иванов Александр');
+                        addToOutput('   Дата: 15.03.1985');
+                        addToOutput('   Телефон: +7 903 123-45-67');
+                    }, 1000);
+                    break;
+                case 8:
+                    addToOutput('[+] Информация:');
+                    addToOutput('   Версия: 2.0.0');
+                    addToOutput('   Бренд: zoahki');
+                    addToOutput('   Статус: Активен');
+                    break;
+                case 9:
+                    addToOutput('[+] Разработчик: @zoahki_dev');
+                    addToOutput('[+] Канал: @zoahki_channel');
+                    break;
+                case 10:
+                    addToOutput('[!] Завершение работы...');
+                    addToOutput('[!] Спасибо за использование!');
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
